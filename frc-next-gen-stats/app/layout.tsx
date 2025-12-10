@@ -24,8 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <nav className="fixed top-0 right-0 flex gap-4 p-4 bg-blue-950">
+       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <nav className="fixed top-0 right-0 flex gap-4 p-4" style={{ backgroundColor: '#0a1628' }}>
           <a href="/" className="text-sky-300 hover:text-white">Home</a>
           <a href="/stats" className="text-sky-300 hover:text-white">Stats</a>
         </nav>
