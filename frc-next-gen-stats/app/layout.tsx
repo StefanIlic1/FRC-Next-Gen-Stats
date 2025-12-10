@@ -30,8 +30,7 @@ export default function RootLayout({
             <div className="flex items-center justify-between h-16">
               {/* Logo/Brand */}
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg"></div>
-                <span className="text-xl font-semibold text-white tracking-tight">FRC Stats</span>
+                <span className="text-xl font-semibold text-white tracking-tight">FRC Next Gen Stats</span>
               </div>
 
               {/* Navigation Links */}
