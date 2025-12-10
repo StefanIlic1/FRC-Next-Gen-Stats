@@ -25,11 +25,26 @@ export default function RootLayout({
   return (
     <html lang="en">
        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <nav className="fixed top-0 right-0 flex gap-4 p-4" style={{ backgroundColor: '#0a1628' }}>
-          <a href="/" className="text-sky-300 hover:text-white">Home</a>
-          <a href="/stats" className="text-sky-300 hover:text-white">Stats</a>
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#1a202c] border-b border-gray-800">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo/Brand */}
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg"></div>
+                <span className="text-xl font-semibold text-white tracking-tight">FRC Stats</span>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="flex items-center gap-8">
+                <a href="/" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">Home</a>
+                <a href="/stats" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">Stats</a>
+              </div>
+            </div>
+          </div>
         </nav>
-        {children}
+        <div className="pt-16">
+          {children}
+        </div>
       </body>
     </html>
   );
