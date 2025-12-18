@@ -40,7 +40,7 @@ interface EventWithMatches {
 async function fetchTBA(endpoint: string) {
   const apiKey = process.env.TBA_API_KEY;
 
-  if (!apiKey || apiKey === 'your_api_key_here') {
+  if (!apiKey) {
     throw new Error('TBA_API_KEY is not configured. Please add your API key to .env.local');
   }
 
@@ -123,24 +123,7 @@ export default async function Stats() {
           </a>
         </div>
 
-        {error ? (
-          <div className="bg-red-900 border border-red-500 text-white p-4 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Error</h2>
-            <p>{error}</p>
-            <p className="mt-2 text-sm">
-              Make sure you have set your TBA API key in the .env.local file.
-              You can get an API key from{' '}
-              <a
-                href="https://www.thebluealliance.com/account"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                The Blue Alliance Account Dashboard
-              </a>
-            </p>
-          </div>
-        ) : eventsWithMatches.length === 0 ? (
+        {eventsWithMatches.length === 0 ? (
           <div className="bg-yellow-900 border border-yellow-500 text-white p-4 rounded-lg">
             <p>No events found for Team 3061 in 2025.</p>
           </div>
@@ -157,7 +140,7 @@ export default async function Stats() {
                       📍 {event.city}, {event.state_prov}, {event.country}
                     </p>
                     <p>
-                      📅 {new Date(event.start_date).toLocaleDateString()} -{' '}
+                      📅 {new Date(event.start_date).toLocaleDateString()}-{' '}
                       {new Date(event.end_date).toLocaleDateString()}
                     </p>
                     <p>Event Code: {event.event_code}</p>
