@@ -58,30 +58,30 @@ async function fetchTBA(endpoint: string) {
   return response.json();
 }
 
-// Fetch team events and their matches
+// Fetch team events and their matches (efficient version)
 async function getTeamEventsWithMatches(teamNumber: number, year: number): Promise<EventWithMatches[]> {
   const teamKey = `frc${teamNumber}`;
 
-  // Fetch team's events for the year
+  // Fetch all team matches for the year in one call (much more efficient!)
+  const matches: TBAMatch[] = await fetchTBA(`/team/${teamKey}/matches/${year}`);
+
+  // Fetch event details (needed for event name, location, dates)
   const events: TBAEvent[] = await fetchTBA(`/team/${teamKey}/events/${year}`);
 
-  // Fetch matches for each event
-  const eventsWithMatches = await Promise.all(
-    events.map(async (event) => {
-      try {
-        const allMatches: TBAMatch[] = await fetchTBA(`/event/${event.key}/matches`);
-        // Filter matches where team 3061 participated
-        const teamMatches = allMatches.filter(match =>
-          match.alliances.red.team_keys.includes(teamKey) ||
-          match.alliances.blue.team_keys.includes(teamKey)
-        );
-        return { event, matches: teamMatches };
-      } catch (error) {
-        console.error(`Error fetching matches for event ${event.key}:`, error);
-        return { event, matches: [] };
-      }
-    })
-  );
+  // Group matches by event_key
+  const matchesByEvent = matches.reduce((acc, match) => {
+    if (!acc[match.event_key]) {
+      acc[match.event_key] = [];
+    }
+    acc[match.event_key].push(match);
+    return acc;
+  }, {} as Record<string, TBAMatch[]>);
+
+  // Combine events with their matches
+  const eventsWithMatches = events.map(event => ({
+    event,
+    matches: matchesByEvent[event.key] || []
+  }));
 
   return eventsWithMatches;
 }
