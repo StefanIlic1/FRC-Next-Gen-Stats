@@ -58,11 +58,11 @@ async function fetchTBA(endpoint: string) {
   return response.json();
 }
 
-// Fetch team events and their matches (efficient version)
+// Fetch team events and their matches
 async function getTeamEventsWithMatches(teamNumber: number, year: number): Promise<EventWithMatches[]> {
   const teamKey = `frc${teamNumber}`;
 
-  // Fetch all team matches for the year in one call (much more efficient!)
+  // Fetch all team matches for the year in one call
   const matches: TBAMatch[] = await fetchTBA(`/team/${teamKey}/matches/${year}`);
 
   // Fetch event details (needed for event name, location, dates)
