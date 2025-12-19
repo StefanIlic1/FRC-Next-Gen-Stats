@@ -1,3 +1,5 @@
+import MatchesTable from './MatchesTable';
+
 // TBA API Types
 interface TBAEvent {
   key: string;
@@ -32,11 +34,6 @@ interface TBAMatch {
   event_key: string;
   event_name: string;
   real_time: string;
-}
-
-interface EventWithMatches {
-  event: TBAEvent;
-  matches: TBAMatch[];
 }
 
 // Helper function to fetch from TBA API
@@ -77,18 +74,6 @@ async function getTeamMatches(teamNumber: number, year: number): Promise<TBAMatc
   return matches;
 }
 
-// Match level display helper
-function getMatchLevelDisplay(compLevel: string): string {
-  const levels: { [key: string]: string } = {
-    'qm': 'Qualification',
-    'ef': 'Eighth Finals',
-    'qf': 'Quarter Finals',
-    'sf': 'Semi Finals',
-    'f': 'Finals',
-  };
-  return levels[compLevel] || compLevel;
-}
-
 export default async function Stats() {
   let error: string | null = null;
   let matches: TBAMatch[] = [];
@@ -114,66 +99,33 @@ export default async function Stats() {
           </a>
         </div>
 
-        {matches.length === 0 ? (
+        {error ? (
+          <div className="bg-red-900 border border-red-500 text-white p-4 rounded-lg">
+            <h2 className="text-xl font-bold mb-2">Error</h2>
+            <p>{error}</p>
+            <p className="mt-2 text-sm">
+              Make sure you have set your TBA API key in the .env.local file.
+              You can get an API key from{' '}
+              <a
+                href="https://www.thebluealliance.com/account"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                The Blue Alliance Account Dashboard
+              </a>
+            </p>
+          </div>
+        ) : matches.length === 0 ? (
           <div className="bg-yellow-900 border border-yellow-500 text-white p-4 rounded-lg">
-            <p>No events found for Team 3061 in 2025.</p>
+            <p>No matches found for Team 3061 in 2025.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-              <tr className="border-b border-sky-600">
-                <th className="p-3 font-semibold text-sky-300">Event</th>
-                <th className="p-3 font-semibold text-sky-300">Date/Time</th>
-                <th className="p-3 font-semibold text-sky-300">Match</th>
-                <th className="p-3 font-semibold text-sky-300">Level</th>
-                <th className="p-3 font-semibold text-sky-300">Red Alliance</th>
-                <th className="p-3 font-semibold text-sky-300">Blue Alliance</th>
-                <th className="p-3 font-semibold text-sky-300">Score</th>
-                <th className="p-3 font-semibold text-sky-300">Result</th>
-              </tr>
-              </thead>
-              <tbody>
-              {matches.map((match) => {
-                const isRedAlliance = match.alliances.red.team_keys.includes('frc3061');
-                const won = (isRedAlliance && match.winning_alliance === 'red') ||
-                     (!isRedAlliance && match.winning_alliance === 'blue');
-
-                return (
-                <tr key={match.key} className="border-b border-blue-800 hover:bg-blue-800">
-                  <td className="p-3">{match.event_key}</td>
-                  <td className="p-3">{match.real_time}</td>
-                    <td className="p-3">
-                    {['qf', 'sf', 'f'].includes(match.comp_level) 
-                      ? `${match.set_number}-${match.match_number}` 
-                      : match.match_number}
-                    </td>
-                  <td className="p-3">{getMatchLevelDisplay(match.comp_level)}</td>
-                  <td className={`p-3 ${isRedAlliance ? 'font-bold text-red-400' : ''}`}>
-                  {match.alliances.red.team_keys.map(key => key.replace('frc', '')).join(', ')}
-                  </td>
-                  <td className={`p-3 ${!isRedAlliance ? 'font-bold text-blue-400' : ''}`}>
-                  {match.alliances.blue.team_keys.map(key => key.replace('frc', '')).join(', ')}
-                  </td>
-                  <td className="p-3">
-                  <span className="text-red-400">{match.alliances.red.score}</span>
-                  {' - '}
-                  <span className="text-blue-400">{match.alliances.blue.score}</span>
-                  </td>
-                  <td className="p-3">
-                  {match.winning_alliance === '' ? (
-                    <span className="text-gray-400">TBD</span>
-                  ) : won ? (
-                    <span className="text-green-400 font-bold">✓ Win</span>
-                  ) : (
-                    <span className="text-gray-400">Loss</span>
-                  )}
-                  </td>
-                </tr>
-                );
-              })}
-              </tbody>
-            </table>
+          <div className="bg-blue-900 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-sky-300 mb-4">
+              All Matches ({matches.length})
+            </h2>
+            <MatchesTable matches={matches} />
           </div>
         )}
       </div>
