@@ -125,7 +125,7 @@ export default async function Stats() {
             <h2 className="text-2xl font-bold text-sky-300 mb-4">
               All Matches ({matches.length})
             </h2>
-            <MatchesTable matches={matches} />
+            <MatchesTable team_key="frc3061" matches={matches} />
           </div>
         )}
       </div>

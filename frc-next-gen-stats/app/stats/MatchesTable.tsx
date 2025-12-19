@@ -38,7 +38,7 @@ function getMatchLevelDisplay(compLevel: string): string {
   return levels[compLevel] || compLevel;
 }
 
-export default function MatchesTable({ matches }: { matches: TBAMatch[] }) {
+export default function MatchesTable({ team_key, matches }: Readonly<{ team_key: string; matches: TBAMatch[] }>) {
   const [sortField, setSortField] = useState<SortField>('time');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
@@ -57,9 +57,9 @@ export default function MatchesTable({ matches }: { matches: TBAMatch[] }) {
     if (sortField === 'time') {
       return sortDirection === 'asc' ? a.time - b.time : b.time - a.time;
     } else {
-      // Sort by team 3061's alliance score
-      const isRedA = a.alliances.red.team_keys.includes('frc3061');
-      const isRedB = b.alliances.red.team_keys.includes('frc3061');
+      // Sort by team's alliance score
+      const isRedA = a.alliances.red.team_keys.includes(`${team_key}`);
+      const isRedB = b.alliances.red.team_keys.includes(`${team_key}`);
       const scoreA = isRedA ? a.alliances.red.score : a.alliances.blue.score;
       const scoreB = isRedB ? b.alliances.red.score : b.alliances.blue.score;
       return sortDirection === 'desc' ? scoreB - scoreA : scoreA - scoreB;
@@ -94,14 +94,14 @@ export default function MatchesTable({ matches }: { matches: TBAMatch[] }) {
               className="p-3 font-semibold text-sky-300 cursor-pointer hover:bg-blue-800 select-none"
               onClick={() => handleSort('score')}
             >
-              Your Alliance Score <SortIcon field="score" />
+              Alliance Score <SortIcon field="score" />
             </th>
             <th className="p-3 font-semibold text-sky-300">Result</th>
           </tr>
         </thead>
         <tbody>
           {sortedMatches.map((match) => {
-            const isRedAlliance = match.alliances.red.team_keys.includes('frc3061');
+            const isRedAlliance = match.alliances.red.team_keys.includes(`${team_key}`);
             const won = (isRedAlliance && match.winning_alliance === 'red') ||
                        (!isRedAlliance && match.winning_alliance === 'blue');
             const teamScore = isRedAlliance ? match.alliances.red.score : match.alliances.blue.score;
@@ -123,8 +123,12 @@ export default function MatchesTable({ matches }: { matches: TBAMatch[] }) {
                     <span className="text-gray-400">TBD</span>
                   )}
                 </td>
-                <td className="p-3 text-sm">{match.event_name}</td>
-                <td className="p-3">{match.match_number}</td>
+                <td className="p-3 text-sm">{match.event_key}</td>
+                <td className="p-3">
+                  {['qf', 'sf', 'f'].includes(match.comp_level)
+                  ? `${match.set_number}-${match.match_number}`
+                  : match.match_number}
+                </td>
                 <td className="p-3">{getMatchLevelDisplay(match.comp_level)}</td>
                 <td className={`p-3 ${isRedAlliance ? 'font-bold text-red-400' : ''}`}>
                   {match.alliances.red.team_keys.map(key => key.replace('frc', '')).join(', ')}
