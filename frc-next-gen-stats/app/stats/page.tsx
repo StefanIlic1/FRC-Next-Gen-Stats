@@ -62,10 +62,15 @@ async function fetchTBA(endpoint: string) {
 async function getTeamMatches(teamNumber: number, year: number): Promise<TBAMatch[]> {
   const teamKey = `frc${teamNumber}`;
 
+  // Fetch events to get event names
+  const events: TBAEvent[] = await fetchTBA(`/team/${teamKey}/events/${year}`);
+  const eventNameMap = new Map(events.map(event => [event.key, event.name]));
+
   // Fetch all team matches for the year in one call
-  const matches: TBAMatch[] = (await fetchTBA(`/team/${teamKey}/matches/${year}`)).map((match: { time: number; }) => ({
+  const matches: TBAMatch[] = (await fetchTBA(`/team/${teamKey}/matches/${year}`)).map((match: { time: number; event_key: string; }) => ({
     ...match,
-    real_time: new Date(match.time * 1000).toLocaleString()
+    real_time: new Date(match.time * 1000).toLocaleString(),
+    event_name: eventNameMap.get(match.event_key) || match.event_key
   }));
 
   // Sort matches by time
