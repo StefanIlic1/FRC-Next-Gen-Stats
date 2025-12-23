@@ -123,7 +123,7 @@ export default function MatchesTable({ team_key, matches }: Readonly<{ team_key:
                     <span className="text-gray-400">TBD</span>
                   )}
                 </td>
-                <td className="p-3 text-sm">{match.event_key}</td>
+                <td className="p-3 text-sm">{match.event_name}</td>
                 <td className="p-3">
                   {['qf', 'sf', 'f'].includes(match.comp_level)
                   ? `${match.set_number}-${match.match_number}`
