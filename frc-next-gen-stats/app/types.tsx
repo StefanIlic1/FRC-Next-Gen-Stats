@@ -18,6 +18,7 @@ export interface TBAMatch {
   event_key: string;
   event_name: string;
   real_time: string;
+  official: boolean;
 }
 
 export interface TBAEvent {

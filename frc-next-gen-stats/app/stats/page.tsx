@@ -28,16 +28,25 @@ async function fetchTBA(endpoint: string) {
 async function getTeamMatches(teamNumber: number, year: number): Promise<TBAMatch[]> {
   const teamKey = `frc${teamNumber}`;
 
-  // Fetch events to get event names
+  // Fetch events to get event names and types
   const events: TBAEvent[] = await fetchTBA(`/team/${teamKey}/events/${year}`);
   const eventNameMap = new Map(events.map(event => [event.key, event.name]));
+  const eventTypeMap = new Map(events.map(event => [event.key, event.event_type]));
 
   // Fetch all team matches for the year in one call
-  const matches: TBAMatch[] = (await fetchTBA(`/team/${teamKey}/matches/${year}`)).map((match: { time: number; event_key: string; }) => ({
-    ...match,
-    real_time: new Date(match.time * 1000).toLocaleString(),
-    event_name: eventNameMap.get(match.event_key) || match.event_key
-  }));
+  const matches: TBAMatch[] = (await fetchTBA(`/team/${teamKey}/matches/${year}`)).map((match: { time: number; event_key: string; }) => {
+    const eventType = eventTypeMap.get(match.event_key) ?? 99;
+    // Official events have event_type 0-6 (Regional, District, Championship, etc.)
+    // Offseason = 99, Preseason = 100, Unlabeled = -1
+    const isOfficial = eventType >= 0 && eventType < 99;
+
+    return {
+      ...match,
+      real_time: new Date(match.time * 1000).toLocaleString(),
+      event_name: eventNameMap.get(match.event_key) || match.event_key,
+      official: isOfficial
+    };
+  });
 
   // Sort matches by time
   matches.sort((a, b) => a.time - b.time);
