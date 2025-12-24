@@ -64,7 +64,6 @@ export default function MatchesTable({ team_key, matches }: Readonly<{ team_key:
               Date/Time <SortIcon field="time" />
             </th>
             <th className="p-3 font-semibold text-sky-300">Event</th>
-            <th className="p-3 font-semibold text-sky-300">Official?</th>
             <th className="p-3 font-semibold text-sky-300">Match</th>
             <th className="p-3 font-semibold text-sky-300">Level</th>
             <th className="p-3 font-semibold text-sky-300">Red Alliance</th>
@@ -109,7 +108,6 @@ export default function MatchesTable({ team_key, matches }: Readonly<{ team_key:
                   )}
                 </td>
                 <td className="p-3 text-sm">{match.event_name}</td>
-                <td className="p-3 text-sm">{match.official ? 'true' : 'false'}</td>
                 <td className="p-3">
                   {['qf', 'sf', 'f'].includes(match.comp_level)
                   ? `${match.set_number}-${match.match_number}`

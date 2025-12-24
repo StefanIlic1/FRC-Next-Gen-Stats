@@ -93,7 +93,7 @@ export default async function Stats() {
             </div>
             <div className="bg-blue-900 rounded-lg p-6">
               <h2 className="text-2xl font-bold text-sky-300 mb-4">
-                All Matches
+                Matches
               </h2>
               <MatchesTable team_key="frc3061" matches={matches} />
             </div>
