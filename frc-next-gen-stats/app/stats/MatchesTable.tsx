@@ -1,28 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
-interface TBAMatch {
-  key: string;
-  comp_level: string;
-  set_number: number;
-  match_number: number;
-  time: number;
-  alliances: {
-    red: {
-      score: number;
-      team_keys: string[];
-    };
-    blue: {
-      score: number;
-      team_keys: string[];
-    };
-  };
-  winning_alliance: string;
-  event_key: string;
-  event_name: string;
-  real_time: string;
-}
+import { TBAMatch } from '.././types';
 
 type SortField = 'time' | 'score';
 type SortDirection = 'asc' | 'desc';
@@ -38,7 +17,7 @@ function getMatchLevelDisplay(compLevel: string): string {
   return levels[compLevel] || compLevel;
 }
 
-export default function MatchesTable({ team_key, matches }: Readonly<{ team_key: string; matches: TBAMatch[] }>) {
+export default function MatchesTable({ team_key, matches, includeOffseason }: Readonly<{ team_key: string; matches: TBAMatch[]; includeOffseason: boolean }>) {
   const [sortField, setSortField] = useState<SortField>('time');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
@@ -106,6 +85,15 @@ export default function MatchesTable({ team_key, matches }: Readonly<{ team_key:
                        (!isRedAlliance && match.winning_alliance === 'blue');
             const teamScore = isRedAlliance ? match.alliances.red.score : match.alliances.blue.score;
 
+            // in case of unplayed finals matches with scores of -1 to -1
+            if (match.alliances.red.score === -1 && match.alliances.blue.score === -1) { 
+              return null;
+            }
+
+            if (!includeOffseason && !match.official) {
+              return null;
+            }
+
             return (
               <tr key={match.key} className="border-b border-blue-800 hover:bg-blue-800">
                 <td className="p-3">
@@ -123,7 +111,7 @@ export default function MatchesTable({ team_key, matches }: Readonly<{ team_key:
                     <span className="text-gray-400">TBD</span>
                   )}
                 </td>
-                <td className="p-3 text-sm">{match.event_key}</td>
+                <td className="p-3 text-sm">{match.event_name}</td>
                 <td className="p-3">
                   {['qf', 'sf', 'f'].includes(match.comp_level)
                   ? `${match.set_number}-${match.match_number}`
