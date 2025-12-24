@@ -17,7 +17,7 @@ function getMatchLevelDisplay(compLevel: string): string {
   return levels[compLevel] || compLevel;
 }
 
-export default function MatchesTable({ team_key, matches }: Readonly<{ team_key: string; matches: TBAMatch[] }>) {
+export default function MatchesTable({ team_key, matches, includeOffseason }: Readonly<{ team_key: string; matches: TBAMatch[]; includeOffseason: boolean }>) {
   const [sortField, setSortField] = useState<SortField>('time');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
@@ -87,6 +87,10 @@ export default function MatchesTable({ team_key, matches }: Readonly<{ team_key:
 
             // in case of unplayed finals matches with scores of -1 to -1
             if (match.alliances.red.score === -1 && match.alliances.blue.score === -1) { 
+              return null;
+            }
+
+            if (!includeOffseason && !match.official) {
               return null;
             }
 
