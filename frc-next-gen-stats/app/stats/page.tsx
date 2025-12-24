@@ -1,40 +1,6 @@
 import MatchesTable from './MatchesTable';
-
-// TBA API Types
-interface TBAEvent {
-  key: string;
-  name: string;
-  event_code: string;
-  event_type: number;
-  start_date: string;
-  end_date: string;
-  year: number;
-  city: string;
-  state_prov: string;
-  country: string;
-}
-
-interface TBAMatch {
-  key: string;
-  comp_level: string;
-  set_number: number;
-  match_number: number;
-  time: number;
-  alliances: {
-    red: {
-      score: number;
-      team_keys: string[];
-    };
-    blue: {
-      score: number;
-      team_keys: string[];
-    };
-  };
-  winning_alliance: string;
-  event_key: string;
-  event_name: string;
-  real_time: string;
-}
+import { TBAMatch, TBAEvent } from '.././types';
+import StatsDisplay from './StatsDisplay';
 
 // Helper function to fetch from TBA API
 async function fetchTBA(endpoint: string) {
@@ -104,7 +70,26 @@ export default async function Stats() {
           </a>
         </div>
 
-        {error ? (
+        {!error ? (matches.length === 0 ? (
+          <div className="bg-yellow-900 border border-yellow-500 text-white p-4 rounded-lg">
+            <p>No matches found for Team 3061 in 2025.</p>
+          </div>
+        ) : (
+          <div>
+            <div className="bg-blue-900 rounded-lg p-6 mb-6">
+              <h2 className="text-2xl font-bold text-sky-300 mb-4">
+                Season Summary
+              </h2>
+              <StatsDisplay team_key="frc3061" matches={matches} />
+            </div>
+            <div className="bg-blue-900 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-sky-300 mb-4">
+                All Matches
+              </h2>
+              <MatchesTable team_key="frc3061" matches={matches} />
+            </div>
+          </div>
+        )) : (
           <div className="bg-red-900 border border-red-500 text-white p-4 rounded-lg">
             <h2 className="text-xl font-bold mb-2">Error</h2>
             <p>{error}</p>
@@ -120,17 +105,6 @@ export default async function Stats() {
                 The Blue Alliance Account Dashboard
               </a>
             </p>
-          </div>
-        ) : matches.length === 0 ? (
-          <div className="bg-yellow-900 border border-yellow-500 text-white p-4 rounded-lg">
-            <p>No matches found for Team 3061 in 2025.</p>
-          </div>
-        ) : (
-          <div className="bg-blue-900 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-sky-300 mb-4">
-              All Matches ({matches.length})
-            </h2>
-            <MatchesTable team_key="frc3061" matches={matches} />
           </div>
         )}
       </div>
