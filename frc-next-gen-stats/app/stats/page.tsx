@@ -1,6 +1,6 @@
+import MatchesTable from './MatchesTable';
 import { TBAMatch, TBAEvent } from '.././types';
 import StatsDisplay from './StatsDisplay';
-import MatchesSection from './MatchesSection';
 
 // Helper function to fetch from TBA API
 async function fetchTBA(endpoint: string) {
@@ -91,7 +91,12 @@ export default async function Stats() {
               </h2>
               <StatsDisplay team_key="frc3061" matches={matches} />
             </div>
-            <MatchesSection team_key="frc3061" matches={matches} />
+            <div className="bg-blue-900 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-sky-300 mb-4">
+                Matches
+              </h2>
+              <MatchesTable team_key="frc3061" matches={matches} />
+            </div>
           </div>
         )) : (
           <div className="bg-red-900 border border-red-500 text-white p-4 rounded-lg">
