@@ -41,12 +41,12 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        <div className="pt-16 pb-20">
+        <div>
           {children}
         </div>
 
-        {/* Footer */}
-        <footer className="fixed bottom-0 left-0 right-0 bg-blue-950 border-t border-gray-800">
+  
+        <footer className="fixed bottom-0 left-0 right-0 z-50 bg-blue-950 border-t border-gray-800">
           <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
               <span>Powered by</span>
@@ -57,14 +57,6 @@ export default function RootLayout({
                 className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors duration-200 font-medium"
               >
                 The Blue Alliance
-                <svg
-                  className="w-5 h-5"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                  <text x="12" y="16" fontSize="10" textAnchor="middle" fill="currentColor" fontWeight="bold">TBA</text>
-                </svg>
               </a>
             </div>
           </div>
