@@ -87,7 +87,78 @@ export default function StatsDisplay({ team_key, matches }: Readonly<{ team_key:
 
   };
 
+  const getMeanScore = (matches: TBAMatch[]) => {
+    let totalScore = 0;
+    let matchCount = 0;
+    matches.forEach(match => {
+      const isRedAlliance = match.alliances.red.team_keys.includes(`${team_key}`);
+      const score = isRedAlliance ? match.alliances.red.score : match.alliances.blue.score;
+      // exclude red card matches and broken matches
+      if (score > 0) {
+        totalScore += score;
+        matchCount += 1;
+      }
+    });
+
+    return matchCount === 0 ? 0 : totalScore / matchCount;
+
+  };
+
+  const getFiveNumberSummary = (matches: TBAMatch[]) => {
+    const scores: number[] = [];
+    matches.forEach(match => {
+      const isRedAlliance = match.alliances.red.team_keys.includes(`${team_key}`);
+      const score = isRedAlliance ? match.alliances.red.score : match.alliances.blue.score;
+      // exclude red card matches and broken matches
+      if (score > 0) {
+        scores.push(score);
+      }
+    });
+
+    // get five number summary (min, 25th percentile, median, 75th percentile, max)
+    scores.sort((a, b) => a - b);
+    const min = scores[0] || 0;
+    const max = scores[scores.length - 1] || 0;
+    const median = scores.length % 2 === 0 ? (scores[scores.length / 2 - 1] + scores[scores.length / 2]) / 2 : scores[Math.floor(scores.length / 2)];
+    const q1 = scores.length >= 4 ? (scores[Math.floor(scores.length / 4) - 1] + scores[Math.floor(scores.length / 4)]) / 2 : min;
+    const q3 = scores.length >= 4 ? (scores[Math.floor((3 * scores.length) / 4) - 1] + scores[Math.floor((3 * scores.length) / 4)]) / 2 : max;
+
+    return { min, q1, median, q3, max };
+  }
+
   return (
+    <div>
+    <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-4 w-fit">
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">Average Alliance Score - Official Matches</h3>
+      <p className="text-2xl font-bold text-blue-700">{getMeanScore(matches.filter(match => match.official)).toFixed(2)}</p>
+    </div>
+
+    <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-8 w-fit">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Scoring Summary - Official Matches</h3>
+      <div className="flex gap-10">
+      <div>
+        <p className="text-sm text-gray-700 mb-1">Min</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).min}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">25th</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).q1}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">Median</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).median}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">75th</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).q3}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">Max</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).max}</p>
+      </div>
+      </div>
+    </div>
+
     <div className="grid grid-cols-3 gap-4 p-4">
       <div className="flex flex-col gap-4">
       <h2 className="font-bold text-lg text-sky-300">All Matches</h2>
@@ -136,6 +207,7 @@ export default function StatsDisplay({ team_key, matches }: Readonly<{ team_key:
         <p className="text-2xl font-bold text-orange-700">{getRecords(matches).get('Offseason Playoff Match Record')?.join('-')}</p>
       </div>
       </div>
+    </div>
     </div>
   );
 }
