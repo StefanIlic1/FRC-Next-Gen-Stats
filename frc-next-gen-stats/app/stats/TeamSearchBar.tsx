@@ -23,8 +23,8 @@ export default function TeamSearchBar({ currentTeam }: TeamSearchBarProps) {
 
   return (
     <div className="bg-blue-900 rounded-lg p-4">
-      <form onSubmit={handleSubmit} className="flex gap-3 items-center">
-        <label htmlFor="team-search" className="text-sky-300 font-semibold">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-stretch sm:items-center">
+        <label htmlFor="team-search" className="text-sky-300 font-semibold text-sm sm:text-base">
           Search Team:
         </label>
         <input
@@ -33,12 +33,12 @@ export default function TeamSearchBar({ currentTeam }: TeamSearchBarProps) {
           value={teamNumber}
           onChange={(e) => setTeamNumber(e.target.value)}
           placeholder={currentTeam ? `Currently viewing: ${currentTeam}` : "Enter team number..."}
-          className="flex-1 max-w-xs px-4 py-2 rounded-lg bg-blue-800 border border-sky-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
+          className="w-full sm:w-64 px-3 sm:px-4 py-2 rounded-lg bg-blue-800 border border-sky-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-400 text-sm sm:text-base"
           min="1"
         />
         <button
           type="submit"
-          className="px-6 py-2 rounded-lg bg-sky-400 text-blue-950 font-semibold hover:bg-sky-300 transition-colors"
+          className="px-4 sm:px-6 py-2 rounded-lg bg-sky-400 text-blue-950 font-semibold hover:bg-sky-300 transition-colors text-sm sm:text-base"
         >
           Search
         </button>
