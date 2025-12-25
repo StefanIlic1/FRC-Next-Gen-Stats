@@ -77,7 +77,7 @@ export default async function TeamStats({ params }: { params: Promise<{ team: st
     <div className="min-h-screen bg-blue-950 text-white p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-sky-400 mb-4">
+          <h1 className="text-4xl font-bold text-sky-400 mt-16 mb-4">
             Team {teamNumber} - 2025 Season Stats
           </h1>
           <div className="flex gap-4 items-center mb-4">
