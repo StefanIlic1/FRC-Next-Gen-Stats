@@ -20,7 +20,7 @@ async function fetchTBA(endpoint: string) {
   });
 
   if (!response.ok) {
-    throw new Error(`TBA API error: ${response.status} ${response.statusText}`);
+    throw new Error(`${response.status}: Team Does Not Exist`);
   }
 
   return response.json();
