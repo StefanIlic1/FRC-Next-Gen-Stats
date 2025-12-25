@@ -56,8 +56,9 @@ async function getTeamMatches(teamNumber: number, year: number): Promise<TBAMatc
   return matches;
 }
 
-export default async function TeamStats({ params }: Readonly<{ params: { team: string } }>) {
-  const teamNumber = Number.parseInt(params.team);
+export default async function TeamStats({ params }: { params: Promise<{ team: string }> }) {
+  const { team } = await params;
+  const teamNumber = Number.parseInt(team);
   let error: string | null = null;
   let matches: TBAMatch[] = [];
 
