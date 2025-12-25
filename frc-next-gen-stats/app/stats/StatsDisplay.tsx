@@ -128,14 +128,14 @@ export default function StatsDisplay({ team_key, matches }: Readonly<{ team_key:
 
   return (
     <div>
-    <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-4 w-fit">
+    <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-4 w-full max-w-md">
       <h3 className="text-lg font-semibold text-gray-800 mb-2">Average Alliance Score - Official Matches</h3>
       <p className="text-2xl font-bold text-blue-700">{getMeanScore(matches.filter(match => match.official)).toFixed(2)}</p>
     </div>
 
-    <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-8 w-fit">
+    <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-8 w-full max-w-full overflow-x-auto">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Scoring Summary - Official Matches</h3>
-      <div className="flex gap-10">
+      <div className="flex gap-4 sm:gap-6 md:gap-10 min-w-max sm:min-w-0">
       <div>
         <p className="text-sm text-gray-700 mb-1">Min</p>
         <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).min}</p>
@@ -159,7 +159,7 @@ export default function StatsDisplay({ team_key, matches }: Readonly<{ team_key:
       </div>
     </div>
 
-    <div className="grid grid-cols-3 gap-4 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       <div className="flex flex-col gap-4">
       <h2 className="font-bold text-lg text-sky-300">All Matches</h2>
       <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
