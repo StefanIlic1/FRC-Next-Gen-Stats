@@ -9,7 +9,7 @@ type SortDirection = 'asc' | 'desc';
 function getMatchLevelDisplay(compLevel: string): string {
   const levels: { [key: string]: string } = {
     'qm': 'Qualification',
-    'ef': 'Eighth Finals',
+    'ef': 'Rd of 16',
     'qf': 'Quarter Finals',
     'sf': 'Semi Finals',
     'f': 'Finals',

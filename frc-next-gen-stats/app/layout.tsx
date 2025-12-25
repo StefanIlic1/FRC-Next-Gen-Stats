@@ -41,9 +41,26 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        <div className="pt-16">
+        <div>
           {children}
         </div>
+
+  
+        <footer className="fixed bottom-0 left-0 right-0 z-50 bg-blue-950 border-t border-gray-800">
+          <div className="max-w-7xl mx-auto px-6 py-3">
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+              <span>Powered by</span>
+              <a
+                href="https://www.thebluealliance.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sky-400 hover:text-sky-300 transition-colors duration-200 font-medium"
+              >
+                The Blue Alliance
+              </a>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
