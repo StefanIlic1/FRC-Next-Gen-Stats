@@ -7,7 +7,7 @@ export default function Home() {
             Welcome to FRC Next Gen Stats
           </h1>
           <p className="max-w-md text-lg leading-8 text-white">
-            Lit stuff coming soon!
+            Click to see cool things.
           </p>
             <a
             className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sky-300 text-blue-950 transition-colors hover:bg-gray-200 md:w-[170px]"

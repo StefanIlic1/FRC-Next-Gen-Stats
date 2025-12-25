@@ -134,16 +134,29 @@ export default function StatsDisplay({ team_key, matches }: Readonly<{ team_key:
     </div>
 
     <div className="bg-sky-300 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow mb-8 w-fit">
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">Min</h3>
-      <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).min}</p>
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">25th Percentile</h3>
-      <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).q1}</p>
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">Median</h3>
-      <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).median}</p>
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">75th Percentile</h3>
-      <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).q3}</p>
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">Max</h3>
-      <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).max}</p>
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Scoring Summary - Official Matches</h3>
+      <div className="flex gap-10">
+      <div>
+        <p className="text-sm text-gray-700 mb-1">Min</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).min}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">25th</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).q1}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">Median</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).median}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">75th</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).q3}</p>
+      </div>
+      <div>
+        <p className="text-sm text-gray-700 mb-1">Max</p>
+        <p className="text-2xl font-bold text-blue-700">{getFiveNumberSummary(matches.filter(match => match.official)).max}</p>
+      </div>
+      </div>
     </div>
 
     <div className="grid grid-cols-3 gap-4 p-4">
