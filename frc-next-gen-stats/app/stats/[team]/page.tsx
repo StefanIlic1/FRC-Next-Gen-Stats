@@ -109,9 +109,6 @@ export default async function TeamStats({ params }: { params: Promise<{ team: st
           <div className="bg-red-900 border border-red-500 text-white p-4 rounded-lg">
             <h2 className="text-xl font-bold mb-2">Error</h2>
             <p>{error}</p>
-            <p className="mt-2 text-sm">
-              Failed to fetch from TBA.
-            </p>
           </div>
         )}
       </div>
