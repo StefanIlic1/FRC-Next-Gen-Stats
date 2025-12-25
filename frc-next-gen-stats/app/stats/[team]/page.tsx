@@ -56,13 +56,13 @@ async function getTeamMatches(teamNumber: number, year: number): Promise<TBAMatc
   return matches;
 }
 
-export default async function TeamStats({ params }: { params: { team: string } }) {
-  const teamNumber = parseInt(params.team);
+export default async function TeamStats({ params }: Readonly<{ params: { team: string } }>) {
+  const teamNumber = Number.parseInt(params.team);
   let error: string | null = null;
   let matches: TBAMatch[] = [];
 
   // Validate team number
-  if (isNaN(teamNumber) || teamNumber <= 0) {
+  if (Number.isNaN(teamNumber) || teamNumber <= 0) {
     error = 'Invalid team number. Please enter a valid FRC team number.';
   } else {
     try {

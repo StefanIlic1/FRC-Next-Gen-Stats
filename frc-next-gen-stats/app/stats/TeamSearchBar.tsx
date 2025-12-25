@@ -13,9 +13,9 @@ export default function TeamSearchBar({ currentTeam }: TeamSearchBarProps) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const team = parseInt(teamNumber);
+    const team = Number.parseInt(teamNumber);
 
-    if (!isNaN(team) && team > 0) {
+    if (!Number.isNaN(team) && team > 0) {
       router.push(`/stats/${team}`);
       setTeamNumber(''); // Clear the input after navigation
     }
