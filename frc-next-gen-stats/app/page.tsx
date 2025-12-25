@@ -10,10 +10,10 @@ export default function Home() {
             Click to see cool things.
           </p>
             <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sky-300 text-blue-950 transition-colors hover:bg-gray-200 md:w-[170px]"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-sky-300 text-blue-950 transition-colors hover:bg-gray-200 md:w-[250px]"
             href="/stats"
             >
-            See Cool Things
+            Next Gen Team Stats
             </a>
         </div>
       </main>

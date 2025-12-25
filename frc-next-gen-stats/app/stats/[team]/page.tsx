@@ -110,16 +110,7 @@ export default async function TeamStats({ params }: { params: Promise<{ team: st
             <h2 className="text-xl font-bold mb-2">Error</h2>
             <p>{error}</p>
             <p className="mt-2 text-sm">
-              Make sure you have set your TBA API key in the .env.local file.
-              You can get an API key from{' '}
-              <a
-                href="https://www.thebluealliance.com/account"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                The Blue Alliance Account Dashboard
-              </a>
+              Failed to fetch from TBA.
             </p>
           </div>
         )}
