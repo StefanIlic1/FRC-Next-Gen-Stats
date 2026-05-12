@@ -67,7 +67,7 @@ export default async function TeamStats({ params }: { params: Promise<{ team: st
     error = 'Invalid team number. Please enter a valid FRC team number.';
   } else {
     try {
-      matches = await getTeamMatches(teamNumber, 2025);
+      matches = await getTeamMatches(teamNumber, 2026);
     } catch (err) {
       error = err instanceof Error ? err.message : 'Failed to fetch data from TBA API';
     }
@@ -78,7 +78,7 @@ export default async function TeamStats({ params }: { params: Promise<{ team: st
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-sky-400 pt-16 mb-4">
-            Team {teamNumber} - 2025 Season Stats
+            Team {teamNumber} - 2026 Season Stats
           </h1>
           <div className="flex gap-4 items-center mb-4">
             <a
@@ -93,7 +93,7 @@ export default async function TeamStats({ params }: { params: Promise<{ team: st
 
         {!error ? (matches.length === 0 ? (
           <div className="bg-yellow-900 border border-yellow-500 text-white p-4 rounded-lg">
-            <p>No matches found for Team {teamNumber} in 2025.</p>
+            <p>No matches found for Team {teamNumber} in 2026.</p>
           </div>
         ) : (
           <div>
